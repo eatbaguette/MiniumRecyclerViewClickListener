@@ -1,6 +1,7 @@
 package com.list_sample.minimumrecyclerview.adapter
 
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,13 @@ import com.list_sample.minimumrecyclerview.model.Items
  * Created by monkey on 2017/09/26.
  */
 class RecyclerViewAdapter(private val itemList: List<Items>): RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
+
+    lateinit var listener: View.OnClickListener
+
+    // ClickListener
+    fun setOnItemClickListener(listener: View.OnClickListener) {
+        this.listener = listener
+    }
 
     // ViewHolder
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
@@ -28,6 +36,10 @@ class RecyclerViewAdapter(private val itemList: List<Items>): RecyclerView.Adapt
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val item = itemList[position]
         holder?.cellText?.text = item.cellText
+
+        holder!!.itemView!!.setOnClickListener {
+            Log.d("hoge", "clicked")
+        }
     }
 
     override fun getItemCount(): Int {

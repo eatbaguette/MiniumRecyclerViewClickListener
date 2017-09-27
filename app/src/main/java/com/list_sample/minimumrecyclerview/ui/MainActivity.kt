@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
+import android.view.View
+import android.widget.Toast
 import com.list_sample.minimumrecyclerview.R
 import com.list_sample.minimumrecyclerview.adapter.RecyclerViewAdapter
 import com.list_sample.minimumrecyclerview.model.Items
@@ -22,10 +25,15 @@ class MainActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recycler_view) as RecyclerView
 
         adapter = RecyclerViewAdapter(itemList)
+
+
         val layoutManager = LinearLayoutManager(applicationContext)
         recyclerView.layoutManager = layoutManager
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = adapter
+        adapter.setOnItemClickListener(View.OnClickListener {
+            Log.d("fuga", "clicked")
+        })
 
         // データをリストに入れて渡す。
         prepareData()
