@@ -14,16 +14,28 @@ import com.list_sample.minimumrecyclerview.model.Items
  */
 class RecyclerViewAdapter(private val itemList: List<Items>): RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
 
-    lateinit var listener: View.OnClickListener
+    lateinit var itemClickListener: OnItemClickListener
 
-    // ClickListener
-    fun setOnItemClickListener(listener: View.OnClickListener) {
-        this.listener = listener
+    interface OnItemClickListener {
+        fun onItemClick(view: View, position: Int)
+    }
+
+    fun setOnItemclickListenr(itemClickListener: OnItemClickListener) {
+        this.itemClickListener = itemClickListener
     }
 
     // ViewHolder
-    inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View): RecyclerView.ViewHolder(view), View.OnClickListener {
+
+        init {
+            view.setOnClickListener(this)
+        }
+
         var cellText: TextView = view.findViewById<TextView>(R.id.recycler_view_cell_text)
+
+        override fun onClick(view: View) {
+            itemClickListener.onItemClick(itemView, adapterPosition)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder{
@@ -36,10 +48,6 @@ class RecyclerViewAdapter(private val itemList: List<Items>): RecyclerView.Adapt
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val item = itemList[position]
         holder?.cellText?.text = item.cellText
-
-        holder!!.itemView!!.setOnClickListener {
-            Log.d("hoge", "clicked")
-        }
     }
 
     override fun getItemCount(): Int {

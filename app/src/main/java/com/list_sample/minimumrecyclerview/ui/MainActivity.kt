@@ -31,14 +31,15 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = layoutManager
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = adapter
-        adapter.setOnItemClickListener(View.OnClickListener {
-            Log.d("fuga", "clicked")
-        })
+
+        // ItemClickListenrにonItemClickListenerを
+        adapter.setOnItemclickListenr(onItemClickListener)
 
         // データをリストに入れて渡す。
         prepareData()
     }
 
+    
     private fun prepareData() {
         // データを作成
         for (i in 0 .. 100) {
@@ -48,5 +49,13 @@ class MainActivity : AppCompatActivity() {
 
         // 更新
         adapter.notifyDataSetChanged()
+    }
+
+
+    // クリック時の処理を書く
+    private val onItemClickListener =  object : RecyclerViewAdapter.OnItemClickListener {
+        override fun onItemClick(view: View, position: Int) {
+            Toast.makeText(this@MainActivity, "Clicked " + position, Toast.LENGTH_LONG).show()
+        }
     }
 }
